@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7263483131398507734, guid: f18464e498400d840a5e07aac76a41d6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7263483131398507734, guid: f18464e498400d840a5e07aac76a41d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -279,11 +279,6 @@ GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!4 &1160368841 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
-  m_PrefabInstance: {fileID: 2099967531}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -294,7 +289,7 @@ Transform:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &373458986
 Transform:
   m_ObjectHideFlags: 0
