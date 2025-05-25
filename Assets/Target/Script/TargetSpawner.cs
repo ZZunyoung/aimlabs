@@ -12,13 +12,12 @@ public class TargetSpawner : MonoBehaviour
     //  10개의 타겟 위치 예시 (직접 지정)
     private Vector3[] spawnPositions = new Vector3[]
     {
-        new Vector3(60f, -0.2f, 47f),
+        new Vector3(60f, -0.2f, 48f),
         new Vector3(61f, -0.2f, 45f),
-        new Vector3(104f, -0.2f, 38f),
-        new Vector3(81f, -0.2f, 30f),
+        new Vector3(104f, -0.2f, 37f),
+        new Vector3(80f, -0.2f, 31.5f),
         new Vector3(76f, 3.8f, 26f),
         new Vector3(76f, 3.8f ,30.5f),
-        new Vector3(105f, 3.8f, 47f),
         new Vector3(105f, 3.8f, 47f),
         new Vector3(105f, 3.8f, 41f),
         new Vector3(56f, -0.2f, 27f),
