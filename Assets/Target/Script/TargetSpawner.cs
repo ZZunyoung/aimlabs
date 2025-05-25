@@ -5,13 +5,24 @@ using System.Collections.Generic;
 public class TargetSpawner : MonoBehaviour
 {
     public GameObject targetPrefab;
-    public int poolSize = 3;
-    public float spawnRange = 10f;
-    public float checkRadius = 0.5f;
-    public LayerMask groundLayer;
-    public LayerMask obstacleLayer;
+    public int poolSize = 1;
 
     private Queue<Target> targetPool = new Queue<Target>();
+
+    //  10개의 타겟 위치 예시 (직접 지정)
+    private Vector3[] spawnPositions = new Vector3[]
+    {
+        new Vector3(60f, -0.2f, 47f),
+        new Vector3(61f, -0.2f, 45f),
+        new Vector3(104f, -0.2f, 38f),
+        new Vector3(81f, -0.2f, 30f),
+        new Vector3(76f, 3.8f, 26f),
+        new Vector3(76f, 3.8f ,30.5f),
+        new Vector3(105f, 3.8f, 47f),
+        new Vector3(105f, 3.8f, 47f),
+        new Vector3(105f, 3.8f, 41f),
+        new Vector3(56f, -0.2f, 27f),
+    };
 
     void Start()
     {
@@ -32,77 +43,35 @@ public class TargetSpawner : MonoBehaviour
         }
     }
 
-    // 타겟 재배치 요청
     public void RespawnTarget(Target target)
     {
-        StartCoroutine(RespawnAfterDelayDirect(target, 1f));
+        StartCoroutine(RespawnAfterDelay(target, 1f));
     }
 
-    private IEnumerator RespawnAfterDelayDirect(Target target, float delay)
+    private IEnumerator RespawnAfterDelay(Target target, float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        Vector3 spawnPos = FindValidPosition();
-        if (spawnPos != Vector3.zero)
-        {
-            Debug.Log($"[타겟 재스폰] 위치: {spawnPos}");
-            target.transform.position = spawnPos;
-            target.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("재스폰 실패 - 유효한 위치 없음");
-        }
+        Vector3 pos = GetRandomSpawnPosition();
+        target.transform.position = pos;
+        target.gameObject.SetActive(true);
     }
 
-
-
-    // 타겟을 랜덤 위치에 재배치
     private void SpawnFromPool()
     {
         if (targetPool.Count == 0) return;
 
         Target target = targetPool.Dequeue();
-        Vector3 spawnPos = FindValidPosition();
-
-        if (spawnPos != Vector3.zero)
-        {
-            target.transform.position = spawnPos;
-            target.gameObject.SetActive(true);
-            targetPool.Enqueue(target); // 스폰 성공 시에만 큐에 다시 넣기
-        }
-        else
-        {
-            Debug.LogWarning("스폰 실패 - 유효한 위치 없음");
-            targetPool.Enqueue(target); // 스폰 실패 시에도 다시 대기열에 추가할지 여부 판단
-        }
+        Vector3 pos = GetRandomSpawnPosition();
+        target.transform.position = pos;
+        target.gameObject.SetActive(true);
+        targetPool.Enqueue(target);
     }
 
-
-    // 유효한 위치 찾기 (장애물 제외 + 바닥 Raycast)
-    private Vector3 FindValidPosition()
+    // 지정된 위치 중 랜덤 선택
+    private Vector3 GetRandomSpawnPosition()
     {
-        for (int i = 0; i < 30; i++)
-        {
-            // 스포너 위치 기준으로 랜덤 반경 위치 설정
-            Vector3 offset = new Vector3(
-                Random.Range(-spawnRange, spawnRange),
-                0f,
-                Random.Range(-spawnRange, spawnRange)
-            );
-
-            Vector3 pos = transform.position + offset;
-            pos.y = -0.2f; // 높이 고정 (바닥에 위치하도록)
-
-            // 장애물 충돌 검사
-            if (!Physics.CheckSphere(pos, checkRadius, obstacleLayer))
-            {
-                return pos;
-            }
-        }
-
-        Debug.LogWarning("유효한 위치를 찾지 못했습니다. (장애물에 막힘)");
-        return Vector3.zero;
+        int index = Random.Range(0, spawnPositions.Length);
+        return spawnPositions[index];
     }
-
 }
