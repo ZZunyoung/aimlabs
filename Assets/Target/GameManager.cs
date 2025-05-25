@@ -1,14 +1,14 @@
 using UnityEngine;
-using UnityEngine.UI; // UI 표시용 (선택)
-using TMPro;
+using TMPro; // TextMeshPro 사용 시
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public TMP_Text scoreText;
-    public int score = 0;
-    
 
-    private void Awake()
+    private int score = 0;
+    public TextMeshProUGUI scoreText; // UI 연결용
+
+    void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -19,9 +19,15 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        Debug.Log($"[점수] 현재 점수: {score}");
+        Debug.Log($"점수 증가: 현재 점수 = {score}");
+        UpdateScoreUI();
+    }
 
+    private void UpdateScoreUI()
+    {
         if (scoreText != null)
-            scoreText.text = "Score: " + score;
+        {
+            scoreText.text = $"Score: {score}";
+        }
     }
 }

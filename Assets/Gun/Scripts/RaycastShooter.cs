@@ -43,12 +43,13 @@ public class RaycastShooter : MonoBehaviour
             if (hit.collider.CompareTag("Target"))
             {
                 Debug.Log("hit!");
-                // Target 컴포넌트 가져와서 처리
+
                 Target target = hit.collider.GetComponent<Target>();
                 if (target != null)
                 {
+                    GameManager.Instance.AddScore(10); // ✅ 점수 반영
                     target.gameObject.SetActive(false);
-                    target.Respawn(); // ← 직접 처리하거나 TargetSpawner에 요청
+                    target.Respawn();
                 }
             }
         }
