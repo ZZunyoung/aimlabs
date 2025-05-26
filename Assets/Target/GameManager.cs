@@ -1,12 +1,22 @@
 using UnityEngine;
-using TMPro; // TextMeshPro »ç¿ë ½Ã
+using TMPro; // TextMeshPro ï¿½ï¿½ï¿½ ï¿½ï¿½
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public GameObject gameoverText;
+    public Text timeText;
+    public Text recordText;
 
+    private bool isGameover;
     private int score = 0;
-    public TextMeshProUGUI scoreText; // UI ¿¬°á¿ë
+    private float time;
+    public TextMeshProUGUI scoreText; // UI ï¿½ï¿½ï¿½ï¿½ï¿½
 
     void Awake()
     {
@@ -19,7 +29,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        Debug.Log($"Á¡¼ö Áõ°¡: ÇöÀç Á¡¼ö = {score}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ = {score}");
         UpdateScoreUI();
     }
 
@@ -28,6 +38,40 @@ public class GameManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = $"Score: {score}";
+        }
+    }
+
+    void Start()
+    {
+        isGameover = false;
+        time = 30;
+    }
+
+    void Update()
+    {
+        if (!isGameover)
+        {
+            time -= Time.deltaTime;
+            timeText.text = "Time : " + (int)time;
+            if ((int)time == 0)
+            {
+                isGameover = true;
+                gameoverText.SetActive(true);
+                float bestRecord = PlayerPrefs.GetFloat("BestRecord");
+                if (score > bestRecord)
+                {
+                    bestRecord = score;
+                    PlayerPrefs.SetFloat("BestRecord", bestRecord);
+                }
+                recordText.text = "Best Record : " + (int)bestRecord;
+            }
+        }
+        else
+        {
+            if (Keyboard.current.rKey.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene("mapExampeScene");
+            }
         }
     }
 }
